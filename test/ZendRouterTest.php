@@ -90,7 +90,7 @@ class ZendRouterTest extends TestCase
                     'type'     => 'regex',
                     'priority' => -1,
                     'options'  => [
-                        'regex' => '/*$',
+                        'regex' => '',
                         'defaults' => [
                             ZendRouter::METHOD_NOT_ALLOWED_ROUTE => '/foo',
                         ],
@@ -136,7 +136,7 @@ class ZendRouterTest extends TestCase
                     'type'     => 'regex',
                     'priority' => -1,
                     'options'  => [
-                        'regex' => '/*$',
+                        'regex' => '',
                         'defaults' => [
                             ZendRouter::METHOD_NOT_ALLOWED_ROUTE => '/foo',
                         ],
@@ -198,7 +198,7 @@ class ZendRouterTest extends TestCase
                     'type'     => 'regex',
                     'priority' => -1,
                     'options'  => [
-                        'regex' => '/*$',
+                        'regex' => '',
                         'defaults' => [
                             ZendRouter::METHOD_NOT_ALLOWED_ROUTE => '/foo/:id',
                         ],
@@ -350,5 +350,20 @@ class ZendRouterTest extends TestCase
         $this->assertEquals('/foo', $router->generateUri('foo-list'));
         $this->assertEquals('/foo/bar', $router->generateUri('foo', ['id' => 'bar']));
         $this->assertEquals('/bar/BAZ', $router->generateUri('bar', ['baz' => 'BAZ']));
+    }
+
+    /**
+     * @group 3
+     */
+    public function testPassingTrailingSlashToRouteNotExpectingItResultsIn404FailureRouteResult()
+    {
+        $router = new ZendRouter();
+        $route  = new Route('/api/ping', 'ping', ['GET'], 'ping');
+
+        $router->addRoute($route);
+        $request = new ServerRequest([ 'REQUEST_METHOD' => 'GET' ], [], '/api/ping/', 'GET');
+        $result = $router->match($request);
+        $this->assertTrue($result->isFailure());
+        $this->assertFalse($result->isMethodFailure());
     }
 }

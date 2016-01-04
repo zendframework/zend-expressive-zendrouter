@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.0.1 - TBD
+## 1.0.1 - 2016-01-04
 
 ### Added
 
@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#3](https://github.com/zendframework/zend-expressive-zendrouter/pull/3) fixes
+  an issue whereby appending a trailing slash to a route that did not define one
+  was resulting in a 405 instead of a 404 error.
 
 ## 1.0.0 - 2015-12-07
 
