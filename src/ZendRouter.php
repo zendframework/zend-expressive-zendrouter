@@ -88,8 +88,7 @@ class ZendRouter implements RouterInterface
         // Must inject routes prior to matching.
         $this->injectRoutes();
 
-        $zendRequest = Psr7ServerRequest::toZend($request, true);
-        $match = $this->zendRouter->match($zendRequest);
+        $match = $this->zendRouter->match(Psr7ServerRequest::toZend($request, true));
 
         if (null === $match) {
             return RouteResult::fromRouteFailure();
