@@ -189,7 +189,7 @@ class ZendRouter implements RouterInterface
             'type'     => 'regex',
             'priority' => -1,
             'options'  => [
-                'regex'    => '/*$',
+                'regex'    => '',
                 'defaults' => [
                     self::METHOD_NOT_ALLOWED_ROUTE => $path,
                 ],
