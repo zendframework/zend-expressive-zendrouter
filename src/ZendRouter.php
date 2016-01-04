@@ -88,7 +88,8 @@ class ZendRouter implements RouterInterface
         // Must inject routes prior to matching.
         $this->injectRoutes();
 
-        $match = $this->zendRouter->match(Psr7ServerRequest::toZend($request, true));
+        $zendRequest = Psr7ServerRequest::toZend($request, true);
+        $match = $this->zendRouter->match($zendRequest);
 
         if (null === $match) {
             return RouteResult::fromRouteFailure();
@@ -189,7 +190,7 @@ class ZendRouter implements RouterInterface
             'type'     => 'regex',
             'priority' => -1,
             'options'  => [
-                'regex'    => '/*$',
+                'regex'    => '',
                 'defaults' => [
                     self::METHOD_NOT_ALLOWED_ROUTE => $path,
                 ],
