@@ -18,7 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#6](https://github.com/zendframework/zend-expressive-zendrouter/pull/6)
+  updates the component to depend on zend-router instead of zend-mvc.
 
 ## 1.0.2 - TBD
 
