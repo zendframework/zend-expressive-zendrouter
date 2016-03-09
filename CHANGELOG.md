@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.0 - TBD
+## 1.1.0 - 2016-03-09
 
 ### Added
 
@@ -20,24 +20,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#6](https://github.com/zendframework/zend-expressive-zendrouter/pull/6)
   updates the component to depend on zend-router instead of zend-mvc.
-
-## 1.0.2 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
 
 ## 1.0.1 - 2016-01-04
 
