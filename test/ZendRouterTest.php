@@ -16,8 +16,8 @@ use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouteResult;
 use Zend\Expressive\Router\ZendRouter;
 use Zend\Http\Request as ZendRequest;
-use Zend\Mvc\Router\Http\TreeRouteStack;
-use Zend\Mvc\Router\RouteMatch;
+use Zend\Router\Http\TreeRouteStack;
+use Zend\Router\RouteMatch;
 
 class ZendRouterTest extends TestCase
 {

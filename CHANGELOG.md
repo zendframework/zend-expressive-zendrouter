@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.2.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- This release removes support for PHP 5.5.
+
+### Fixed
+
+- [#7](https://github.com/zendframework/zend-expressive-zendrouter/pull/7)
+  updates the zend-router dependency to `^3.0`; this also required changing
+  which routes and routers are imported internally to use the new namespace
+  introduced in that version. The changes should have no effect on existing
+  code, except that they will result in dependency updates.
+
 ## 1.1.1 - TBD
 
 ### Added
