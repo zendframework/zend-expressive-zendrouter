@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.2.0 - TBD
+## 1.2.0 - 2016-08-11
 
 ### Added
 
@@ -23,24 +23,6 @@ All notable changes to this project will be documented in this file, in reverse 
   which routes and routers are imported internally to use the new namespace
   introduced in that version. The changes should have no effect on existing
   code, except that they will result in dependency updates.
-
-## 1.1.1 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
 
 ## 1.1.0 - 2016-03-09
 
