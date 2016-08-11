@@ -20,13 +20,13 @@
     "require": {
         "php": "^5.5 || ^7.0",
         "psr/http-message": "^1.0",
-        "zendframework/zend-expressive-router": "^1.0",
-        "zendframework/zend-router": "^2.5",
-        "zendframework/zend-psr7bridge": "^0.2.0"
+        "zendframework/zend-expressive-router": "^1.2",
+        "zendframework/zend-router": "^3.0",
+        "zendframework/zend-psr7bridge": "^0.2.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.7",
-        "squizlabs/php_codesniffer": "^2.3"
+        "phpunit/phpunit": "^4.8",
+        "squizlabs/php_codesniffer": "^2.4"
     },
     "autoload": {
       "psr-4": {
