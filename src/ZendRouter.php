@@ -1,14 +1,13 @@
 <?php
 /**
- * Zend Framework (http://framework.zend.com/)
- *
- * @see       https://github.com/zendframework/zend-expressive for the canonical source repository
- * @copyright Copyright (c) 2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   https://github.com/zendframework/zend-expressive/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/zendframework/zend-expressive-zendrouter for the canonical source repository
+ * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   https://github.com/zendframework/zend-expressive-zendrouter/blob/master/LICENSE.md New BSD License
  */
 
 namespace Zend\Expressive\Router;
 
+use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
 use Zend\Expressive\Exception;
 use Zend\Router\Http\TreeRouteStack;
@@ -28,6 +27,14 @@ use Zend\Psr7Bridge\Psr7ServerRequest;
  */
 class ZendRouter implements RouterInterface
 {
+    /**
+     * Implicitly supported HTTP methods on any route.
+     */
+    const HTTP_METHODS_IMPLICIT = [
+        RequestMethod::METHOD_HEAD,
+        RequestMethod::METHOD_OPTIONS,
+    ];
+
     const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
     /**
@@ -43,6 +50,11 @@ class ZendRouter implements RouterInterface
      * @var array
      */
     private $routeNameMap = [];
+
+    /**
+     * @param Route[]
+     */
+    private $routes = [];
 
     /**
      * Routes aggregated to inject.
@@ -94,7 +106,7 @@ class ZendRouter implements RouterInterface
             return RouteResult::fromRouteFailure();
         }
 
-        return $this->marshalSuccessResultFromRouteMatch($match);
+        return $this->marshalSuccessResultFromRouteMatch($match, $request);
     }
 
     /**
@@ -134,9 +146,10 @@ class ZendRouter implements RouterInterface
      * Create a successful RouteResult from the given RouteMatch.
      *
      * @param RouteMatch $match
+     * @param PsrRequest $request Current HTTP request
      * @return RouteResult
      */
-    private function marshalSuccessResultFromRouteMatch(RouteMatch $match)
+    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request)
     {
         $params = $match->getParams();
 
@@ -146,11 +159,29 @@ class ZendRouter implements RouterInterface
             );
         }
 
-        return RouteResult::fromRouteMatch(
-            $this->getMatchedRouteName($match->getMatchedRouteName()),
-            $params['middleware'],
-            $params
-        );
+        $routeName = $this->getMatchedRouteName($match->getMatchedRouteName());
+
+        $route = array_reduce($this->routes, function ($matched, $route) use ($routeName) {
+            if ($matched) {
+                return $matched;
+            }
+
+            // We store the route name already, so we can match on that
+            if ($routeName === $route->getName()) {
+                return $route;
+            }
+
+            return false;
+        }, false);
+
+        if (! $route) {
+            // This should never happen, as Zend\Expressive\Router\Route always
+            // ensures a non-empty route name. Marking as failed route to be
+            // consistent with other implementations.
+            return RouteResult::fromRouteFailure();
+        }
+
+        return RouteResult::fromRoute($route, $params);
     }
 
     /**
@@ -161,10 +192,11 @@ class ZendRouter implements RouterInterface
      */
     private function createHttpMethodRoute($route)
     {
+        $methods = array_unique(array_merge($route->getAllowedMethods(), self::HTTP_METHODS_IMPLICIT));
         return [
             'type'    => 'method',
             'options' => [
-                'verb'     => implode(',', $route->getAllowedMethods()),
+                'verb'     => implode(',', $methods),
                 'defaults' => [
                     'middleware' => $route->getMiddleware(),
                 ],
@@ -227,6 +259,7 @@ class ZendRouter implements RouterInterface
     {
         foreach ($this->routesToInject as $index => $route) {
             $this->injectRoute($route);
+            $this->routes[] = $route;
             unset($this->routesToInject[$index]);
         }
     }

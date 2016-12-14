@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.3.0 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#12](https://github.com/zendframework/zend-expressive-zendrouter/pull/12)
+  updates the zend-expressive-router dependency to 1.3.2+
+
+- [#12](https://github.com/zendframework/zend-expressive-zendrouter/pull/12)
+  updates the router to compose the `Zend\Expressive\Router\Route` instance
+  associated with a successful route match in the returned `RouteResult`. This
+  allows you to access other route metadata like the path, allowed HTTP methods,
+  and route options.
+
+- [#12](https://github.com/zendframework/zend-expressive-zendrouter/pull/12)
+  updates the router to always support `HEAD` and `OPTIONS` requests made to any
+  valid route. Dispatchers will need to check if such requests are supported
+  explicitly or implicitly by the matched route (using `Route::implicitHead()`
+  and `Route::implicitOptions()`).
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.2.1 - TBD
 
 ### Added
