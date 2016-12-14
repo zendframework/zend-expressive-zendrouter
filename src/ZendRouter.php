@@ -9,6 +9,7 @@
 
 namespace Zend\Expressive\Router;
 
+use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
 use Zend\Expressive\Exception;
 use Zend\Router\Http\TreeRouteStack;
@@ -28,6 +29,14 @@ use Zend\Psr7Bridge\Psr7ServerRequest;
  */
 class ZendRouter implements RouterInterface
 {
+    /**
+     * Implicitly supported HTTP methods on any route.
+     */
+    const HTTP_METHODS_IMPLICIT = [
+        RequestMethod::METHOD_HEAD,
+        RequestMethod::METHOD_OPTIONS,
+    ];
+
     const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
     /**
@@ -185,10 +194,11 @@ class ZendRouter implements RouterInterface
      */
     private function createHttpMethodRoute($route)
     {
+        $methods = array_unique(array_merge($route->getAllowedMethods(), self::HTTP_METHODS_IMPLICIT));
         return [
             'type'    => 'method',
             'options' => [
-                'verb'     => implode(',', $route->getAllowedMethods()),
+                'verb'     => implode(',', $methods),
                 'defaults' => [
                     'middleware' => $route->getMiddleware(),
                 ],
