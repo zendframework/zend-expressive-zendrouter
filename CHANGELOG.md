@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.3.0 - TBD
+## 1.3.0 - 2016-12-14
 
 ### Added
 
@@ -24,24 +24,6 @@ All notable changes to this project will be documented in this file, in reverse 
   valid route. Dispatchers will need to check if such requests are supported
   explicitly or implicitly by the matched route (using `Route::implicitHead()`
   and `Route::implicitOptions()`).
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 1.2.1 - TBD
-
-### Added
-
-- Nothing.
 
 ### Deprecated
 
