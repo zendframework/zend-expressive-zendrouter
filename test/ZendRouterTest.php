@@ -9,6 +9,7 @@
 
 namespace ZendTest\Expressive\Router;
 
+use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Zend\Diactoros\ServerRequest;
@@ -269,10 +270,14 @@ class ZendRouterTest extends TestCase
         $this->zendRouter
             ->match(Argument::type(ZendRequest::class))
             ->willReturn($routeMatch->reveal());
+        $this->zendRouter
+            ->addRoute('/foo', Argument::type('array'))
+            ->shouldBeCalled();
 
         $request = $this->createRequestProphecy();
 
         $router = $this->getRouter();
+        $router->addRoute(new Route('/foo', 'bar', [RequestMethod::METHOD_GET], '/foo'));
         $result = $router->match($request->reveal());
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
@@ -365,5 +370,34 @@ class ZendRouterTest extends TestCase
         $result = $router->match($request);
         $this->assertTrue($result->isFailure());
         $this->assertFalse($result->isMethodFailure());
+    }
+
+    public function testSuccessfulMatchingComposesRouteInRouteResult()
+    {
+        $route = new Route('/foo', 'bar', [RequestMethod::METHOD_GET]);
+
+        $routeMatch = $this->prophesize(RouteMatch::class);
+        $routeMatch->getMatchedRouteName()->willReturn($route->getName());
+        $routeMatch->getParams()->willReturn([
+            'middleware' => $route->getMiddleware(),
+        ]);
+
+        $this->zendRouter
+            ->match(Argument::type(ZendRequest::class))
+            ->willReturn($routeMatch->reveal());
+        $this->zendRouter
+            ->addRoute('/foo^GET', Argument::type('array'))
+            ->shouldBeCalled();
+
+        $request = $this->createRequestProphecy();
+
+        $router = $this->getRouter();
+        $router->addRoute($route);
+
+        $result = $router->match($request->reveal());
+
+        $this->assertInstanceOf(RouteResult::class, $result);
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame($route, $result->getMatchedRoute());
     }
 }
