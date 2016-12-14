@@ -29,6 +29,7 @@ install:
 script:
   - composer test
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
+  - if [[ $CS_CHECK == 'true' ]]; then composer license-check ; fi
 
 notifications:
   irc: "irc.freenode.org#zftalk.dev"
