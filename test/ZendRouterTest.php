@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-zendrouter for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-zendrouter/blob/master/LICENSE.md New BSD License
  */
 
@@ -15,6 +15,7 @@ use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouteResult;
 use Zend\Expressive\Router\ZendRouter;
 use Zend\Http\Request as ZendRequest;
+use Zend\I18n\Translator\TranslatorInterface;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
 
@@ -423,5 +424,24 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
         $this->assertSame($route, $result->getMatchedRoute());
+    }
+
+    public function testUriGenerationMayUseOptions()
+    {
+        $route = new Route('/de/{lang}', 'bar', [RequestMethod::METHOD_PUT], 'test');
+
+        $router = new ZendRouter();
+        $router->addRoute($route);
+
+        $translator = $this->prophesize(TranslatorInterface::class);
+        $translator->translate('lang', 'uri', 'de')->willReturn('found');
+
+        $uri = $router->generateUri('test', [], [
+            'translator'  => $translator->reveal(),
+            'locale'      => 'de',
+            'text_domain' => 'uri',
+        ]);
+
+        $this->assertEquals('/de/found', $uri);
     }
 }
