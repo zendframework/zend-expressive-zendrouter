@@ -1,7 +1,7 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-zendrouter for the canonical source repository
- * @copyright Copyright (c) 2015-2016 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-zendrouter/blob/master/LICENSE.md New BSD License
  */
 
@@ -10,9 +10,9 @@ namespace Zend\Expressive\Router;
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
 use Zend\Expressive\Exception;
+use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
-use Zend\Psr7Bridge\Psr7ServerRequest;
 
 /**
  * Router implementation that consumes zend-mvc TreeRouteStack.
@@ -112,7 +112,7 @@ class ZendRouter implements RouterInterface
     /**
      * {@inheritDoc}
      */
-    public function generateUri($name, array $substitutions = [])
+    public function generateUri($name, array $substitutions = [], array $options = [])
     {
         // Must inject routes prior to generating URIs.
         $this->injectRoutes();
@@ -126,10 +126,10 @@ class ZendRouter implements RouterInterface
 
         $name = isset($this->routeNameMap[$name]) ? $this->routeNameMap[$name] : $name;
 
-        $options = [
+        $options = array_merge($options, [
             'name'             => $name,
             'only_return_path' => true,
-        ];
+        ]);
 
         return $this->zendRouter->assemble($substitutions, $options);
     }
