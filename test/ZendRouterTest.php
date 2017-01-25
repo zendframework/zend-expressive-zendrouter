@@ -228,7 +228,6 @@ class ZendRouterTest extends TestCase
 
     public function routeResults()
     {
-        $successRoute = new Route('/foo', 'bar');
         return [
             'success' => [
                 new Route('/foo', 'bar'),
