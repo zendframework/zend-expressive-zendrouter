@@ -23,6 +23,8 @@ use Zend\Router\RouteMatch;
 
 class ZendRouterTest extends TestCase
 {
+    private $zendRouter;
+
     public function setUp()
     {
         $this->zendRouter = $this->prophesize(TreeRouteStack::class);
