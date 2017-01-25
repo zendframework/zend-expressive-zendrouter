@@ -8,7 +8,7 @@
 namespace ZendTest\Expressive\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
