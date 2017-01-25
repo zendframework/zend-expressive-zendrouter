@@ -414,6 +414,8 @@ class ZendRouterTest extends TestCase
 
     /**
      * @dataProvider implicitMethods
+     *
+     * @param string $method
      */
     public function testRoutesCanMatchImplicitHeadAndOptionsRequests($method)
     {
