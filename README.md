@@ -16,4 +16,4 @@ $ composer require zendframework/zend-expressive-zendrouter
 
 ## Documentation
 
-See the Expressive [ZF2 Router documentation](https://zendframework.github.io/zend-expressive/features/router/zf2/).
+See the Expressive [ZF2 Router documentation](https://docs.zendframework.com/zend-expressive/features/router/zf2/).
