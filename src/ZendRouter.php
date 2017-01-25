@@ -85,7 +85,7 @@ class ZendRouter implements RouterInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function addRoute(Route $route)
     {
@@ -93,7 +93,7 @@ class ZendRouter implements RouterInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function match(PsrRequest $request)
     {
