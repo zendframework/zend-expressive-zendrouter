@@ -104,12 +104,12 @@ Your first step is to establish a public repository from which we can
 pull your work into the master repository. We recommend using
 [GitHub](https://github.com), as that is where the component is already hosted.
 
-1. Setup a [GitHub account](http://github.com/), if you haven't yet
-2. Fork the repository (http://github.com/zendframework/zend-expressive-zendrouter)
+1. Setup a [GitHub account](https://github.com/), if you haven't yet
+2. Fork the repository (https://github.com/zendframework/zend-expressive-zendrouter)
 3. Clone the canonical repository locally and enter it.
 
    ```console
-   $ git clone git://github.com:zendframework/zend-expressive-zendrouter.git
+   $ git clone git://github.com/zendframework/zend-expressive-zendrouter.git
    $ cd zend-expressive-zendrouter
    ```
 
