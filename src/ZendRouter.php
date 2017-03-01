@@ -9,7 +9,7 @@ namespace Zend\Expressive\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
-use Zend\Expressive\Exception;
+use Zend\Expressive\Router\Exception;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
