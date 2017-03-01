@@ -36,7 +36,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#20](https://github.com/zendframework/zend-expressive-zendrouter/pull/20)
+  fixes an import statement in `ZendRouter` to ensure the correct exception
+  namespace is used.
 
 ## 2.0.0 - 2017-01-11
 
