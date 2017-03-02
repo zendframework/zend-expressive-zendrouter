@@ -8,8 +8,10 @@
 namespace ZendTest\Expressive\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 use Zend\Diactoros\ServerRequest;
 use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouteResult;
@@ -21,6 +23,8 @@ use Zend\Router\RouteMatch;
 
 class ZendRouterTest extends TestCase
 {
+    private $zendRouter;
+
     public function setUp()
     {
         $this->zendRouter = $this->prophesize(TreeRouteStack::class);
@@ -39,9 +43,9 @@ class ZendRouterTest extends TestCase
 
     public function createRequestProphecy($requestMethod = RequestMethod::METHOD_GET)
     {
-        $request = $this->prophesize('Psr\Http\Message\ServerRequestInterface');
+        $request = $this->prophesize(ServerRequestInterface::class);
 
-        $uri = $this->prophesize('Psr\Http\Message\UriInterface');
+        $uri = $this->prophesize(UriInterface::class);
         $uri->getPath()->willReturn('/foo');
         $uri->__toString()->willReturn('http://www.example.com/foo');
 
@@ -224,7 +228,6 @@ class ZendRouterTest extends TestCase
 
     public function routeResults()
     {
-        $successRoute = new Route('/foo', 'bar');
         return [
             'success' => [
                 new Route('/foo', 'bar'),
@@ -410,6 +413,8 @@ class ZendRouterTest extends TestCase
 
     /**
      * @dataProvider implicitMethods
+     *
+     * @param string $method
      */
     public function testRoutesCanMatchImplicitHeadAndOptionsRequests($method)
     {
