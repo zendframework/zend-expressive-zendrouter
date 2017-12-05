@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#26](https://github.com/zendframework/zend-expressive-zendrouter/pull/26)
+  adds support for PHP 7.2.
 
 ### Deprecated
 
@@ -14,7 +15,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#26](https://github.com/zendframework/zend-expressive-zendrouter/pull/26)
+  removes support for HHVM.
 
 ### Fixed
 
