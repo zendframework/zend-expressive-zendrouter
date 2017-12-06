@@ -2,11 +2,15 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.0.2 - TBD
+## 2.1.0 - 2017-12-06
 
 ### Added
 
-- Nothing.
+- [#26](https://github.com/zendframework/zend-expressive-zendrouter/pull/26)
+  adds support for PHP 7.2.
+
+- [#27](https://github.com/zendframework/zend-expressive-zendrouter/pull/27)
+  adds support for the zend-psr7bridge 1.0 series of releases.
 
 ### Deprecated
 
@@ -14,7 +18,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#26](https://github.com/zendframework/zend-expressive-zendrouter/pull/26)
+  removes support for HHVM.
 
 ### Fixed
 
