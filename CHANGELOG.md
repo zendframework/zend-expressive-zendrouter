@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 2.1.0 - TBD
+## 2.1.0 - 2017-12-06
 
 ### Added
 
@@ -20,24 +20,6 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#26](https://github.com/zendframework/zend-expressive-zendrouter/pull/26)
   removes support for HHVM.
-
-### Fixed
-
-- Nothing.
-
-## 2.0.2 - TBD
-
-### Added
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
 
 ### Fixed
 
