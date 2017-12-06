@@ -31,12 +31,12 @@ class ZendRouter implements RouterInterface
     /**
      * Implicitly supported HTTP methods on any route.
      */
-    const HTTP_METHODS_IMPLICIT = [
+    public const HTTP_METHODS_IMPLICIT = [
         RequestMethod::METHOD_HEAD,
         RequestMethod::METHOD_OPTIONS,
     ];
 
-    const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
+    public const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
     /**
      * Store the HTTP methods allowed for each path.
