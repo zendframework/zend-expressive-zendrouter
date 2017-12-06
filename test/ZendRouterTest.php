@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace ZendTest\Expressive\Router;
 
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
+use Interop\Http\Server\MiddlewareInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,14 +27,19 @@ class ZendRouterTest extends TestCase
 {
     private $zendRouter;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->zendRouter = $this->prophesize(TreeRouteStack::class);
     }
 
-    public function getRouter()
+    private function getRouter() : ZendRouter
     {
         return new ZendRouter($this->zendRouter->reveal());
+    }
+
+    private function getMiddleware() : MiddlewareInterface
+    {
+        return $this->prophesize(MiddlewareInterface::class)->reveal();
     }
 
     public function testWillLazyInstantiateAZendTreeRouteStackIfNoneIsProvidedToConstructor()
@@ -62,7 +68,7 @@ class ZendRouterTest extends TestCase
 
     public function testAddingRouteAggregatesInRouter()
     {
-        $route = new Route('/foo', 'foo', ['GET']);
+        $route = new Route('/foo', $this->getMiddleware(), ['GET']);
         $router = $this->getRouter();
         $router->addRoute($route);
         $this->assertAttributeContains($route, 'routesToInject', $router);
@@ -73,7 +79,8 @@ class ZendRouterTest extends TestCase
      */
     public function testMatchingInjectsRoutesInRouter()
     {
-        $route = new Route('/foo', 'foo', ['GET']);
+        $middleware = $this->getMiddleware();
+        $route = new Route('/foo', $middleware, ['GET']);
 
         $this->zendRouter->addRoute('/foo^GET', [
             'type' => 'segment',
@@ -87,7 +94,7 @@ class ZendRouterTest extends TestCase
                     'options' => [
                         'verb' => 'GET,HEAD,OPTIONS',
                         'defaults' => [
-                            'middleware' => 'foo',
+                            'middleware' => $middleware,
                         ],
                     ],
                 ],
@@ -119,7 +126,8 @@ class ZendRouterTest extends TestCase
      */
     public function testGeneratingUriInjectsRoutesInRouter()
     {
-        $route = new Route('/foo', 'foo', ['GET']);
+        $middleware = $this->getMiddleware();
+        $route = new Route('/foo', $middleware, ['GET']);
 
         $this->zendRouter->addRoute('/foo^GET', [
             'type' => 'segment',
@@ -133,7 +141,7 @@ class ZendRouterTest extends TestCase
                     'options' => [
                         'verb' => 'GET,HEAD,OPTIONS',
                         'defaults' => [
-                            'middleware' => 'foo',
+                            'middleware' => $middleware,
                         ],
                     ],
                 ],
@@ -167,7 +175,8 @@ class ZendRouterTest extends TestCase
 
     public function testCanSpecifyRouteOptions()
     {
-        $route = new Route('/foo/:id', 'foo', ['GET']);
+        $middleware = $this->getMiddleware();
+        $route = new Route('/foo/:id', $middleware, ['GET']);
         $route->setOptions([
             'constraints' => [
                 'id' => '\d+',
@@ -195,7 +204,7 @@ class ZendRouterTest extends TestCase
                     'options' => [
                         'verb' => 'GET,HEAD,OPTIONS',
                         'defaults' => [
-                            'middleware' => 'foo',
+                            'middleware' => $middleware,
                         ],
                     ],
                 ],
@@ -243,10 +252,7 @@ class ZendRouterTest extends TestCase
 
     public function testMatch()
     {
-        $middleware = function ($req, $res, $next) {
-            return $res;
-        };
-
+        $middleware = $this->getMiddleware();
         $route = new Route('/foo', $middleware, ['GET']);
         $zendRouter = new ZendRouter();
         $zendRouter->addRoute($route);
@@ -279,13 +285,14 @@ class ZendRouterTest extends TestCase
 
         $request = $this->createRequestProphecy();
 
+        $middleware = $this->getMiddleware();
         $router = $this->getRouter();
-        $router->addRoute(new Route('/foo', 'bar', [RequestMethod::METHOD_GET], '/foo'));
+        $router->addRoute(new Route('/foo', $middleware, [RequestMethod::METHOD_GET], '/foo'));
         $result = $router->match($request->reveal());
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
-        $this->assertEquals('/foo', $result->getMatchedRouteName());
-        $this->assertEquals('bar', $result->getMatchedMiddleware());
+        $this->assertSame('/foo', $result->getMatchedRouteName());
+        $this->assertSame($middleware, $result->getMatchedMiddleware());
     }
 
     /**
@@ -312,7 +319,7 @@ class ZendRouterTest extends TestCase
     public function testMatchFailureDueToHttpMethodReturnsRouteResultWithAllowedMethods()
     {
         $router = new ZendRouter();
-        $router->addRoute(new Route('/foo', 'bar', ['POST', 'DELETE']));
+        $router->addRoute(new Route('/foo', $this->getMiddleware(), ['POST', 'DELETE']));
         $request = new ServerRequest([ 'REQUEST_METHOD' => 'GET' ], [], '/foo', 'GET');
         $result = $router->match($request);
 
@@ -328,7 +335,7 @@ class ZendRouterTest extends TestCase
     public function testMatchFailureDueToMethodNotAllowedWithParamsInTheRoute()
     {
         $router = new ZendRouter();
-        $router->addRoute(new Route('/foo[/:id]', 'foo', ['POST', 'DELETE']));
+        $router->addRoute(new Route('/foo[/:id]', $this->getMiddleware(), ['POST', 'DELETE']));
         $request = new ServerRequest([ 'REQUEST_METHOD' => 'GET' ], [], '/foo/1', 'GET');
         $result = $router->match($request);
 
@@ -344,10 +351,10 @@ class ZendRouterTest extends TestCase
     public function testCanGenerateUriFromRoutes()
     {
         $router = new ZendRouter();
-        $route1 = new Route('/foo', 'foo', ['POST'], 'foo-create');
-        $route2 = new Route('/foo', 'foo', ['GET'], 'foo-list');
-        $route3 = new Route('/foo/:id', 'foo', ['GET'], 'foo');
-        $route4 = new Route('/bar/:baz', 'bar', Route::HTTP_METHOD_ANY, 'bar');
+        $route1 = new Route('/foo', $this->getMiddleware(), ['POST'], 'foo-create');
+        $route2 = new Route('/foo', $this->getMiddleware(), ['GET'], 'foo-list');
+        $route3 = new Route('/foo/:id', $this->getMiddleware(), ['GET'], 'foo');
+        $route4 = new Route('/bar/:baz', $this->getMiddleware(), Route::HTTP_METHOD_ANY, 'bar');
 
         $router->addRoute($route1);
         $router->addRoute($route2);
@@ -366,7 +373,7 @@ class ZendRouterTest extends TestCase
     public function testPassingTrailingSlashToRouteNotExpectingItResultsIn404FailureRouteResult()
     {
         $router = new ZendRouter();
-        $route  = new Route('/api/ping', 'ping', ['GET'], 'ping');
+        $route  = new Route('/api/ping', $this->getMiddleware(), ['GET'], 'ping');
 
         $router->addRoute($route);
         $request = new ServerRequest([ 'REQUEST_METHOD' => 'GET' ], [], '/api/ping/', 'GET');
@@ -377,7 +384,7 @@ class ZendRouterTest extends TestCase
 
     public function testSuccessfulMatchingComposesRouteInRouteResult()
     {
-        $route = new Route('/foo', 'bar', [RequestMethod::METHOD_GET]);
+        $route = new Route('/foo', $this->getMiddleware(), [RequestMethod::METHOD_GET]);
 
         $routeMatch = $this->prophesize(RouteMatch::class);
         $routeMatch->getMatchedRouteName()->willReturn($route->getName());
@@ -419,7 +426,7 @@ class ZendRouterTest extends TestCase
      */
     public function testRoutesCanMatchImplicitHeadAndOptionsRequests($method)
     {
-        $route = new Route('/foo', 'bar', [RequestMethod::METHOD_PUT]);
+        $route = new Route('/foo', $this->getMiddleware(), [RequestMethod::METHOD_PUT]);
 
         $router = new ZendRouter();
         $router->addRoute($route);
@@ -434,7 +441,7 @@ class ZendRouterTest extends TestCase
 
     public function testUriGenerationMayUseOptions()
     {
-        $route = new Route('/de/{lang}', 'bar', [RequestMethod::METHOD_PUT], 'test');
+        $route = new Route('/de/{lang}', $this->getMiddleware(), [RequestMethod::METHOD_PUT], 'test');
 
         $router = new ZendRouter();
         $router->addRoute($route);
