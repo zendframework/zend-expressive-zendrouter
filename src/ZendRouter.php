@@ -1,9 +1,11 @@
 <?php
 /**
  * @see       https://github.com/zendframework/zend-expressive-zendrouter for the canonical source repository
- * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2015-2017 Zend Technologies USA Inc. (https://www.zend.com)
  * @license   https://github.com/zendframework/zend-expressive-zendrouter/blob/master/LICENSE.md New BSD License
  */
+
+declare(strict_types=1);
 
 namespace Zend\Expressive\Router;
 
@@ -30,12 +32,12 @@ class ZendRouter implements RouterInterface
     /**
      * Implicitly supported HTTP methods on any route.
      */
-    const HTTP_METHODS_IMPLICIT = [
+    public const HTTP_METHODS_IMPLICIT = [
         RequestMethod::METHOD_HEAD,
         RequestMethod::METHOD_OPTIONS,
     ];
 
-    const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
+    public const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
     /**
      * Store the HTTP methods allowed for each path.
@@ -72,8 +74,6 @@ class ZendRouter implements RouterInterface
      * Constructor.
      *
      * Lazy instantiates a TreeRouteStack if none is provided.
-     *
-     * @param null|TreeRouteStack $router
      */
     public function __construct(TreeRouteStack $router = null)
     {
@@ -84,18 +84,12 @@ class ZendRouter implements RouterInterface
         $this->zendRouter = $router;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function addRoute(Route $route)
+    public function addRoute(Route $route) : void
     {
         $this->routesToInject[] = $route;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function match(PsrRequest $request)
+    public function match(PsrRequest $request) : RouteResult
     {
         // Must inject routes prior to matching.
         $this->injectRoutes();
@@ -103,16 +97,15 @@ class ZendRouter implements RouterInterface
         $match = $this->zendRouter->match(Psr7ServerRequest::toZend($request, true));
 
         if (null === $match) {
-            return RouteResult::fromRouteFailure();
+            // No route matched at all; to indicate that it's not due to the
+            // request method, we specify any request method was allowed.
+            return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
         }
 
         return $this->marshalSuccessResultFromRouteMatch($match, $request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function generateUri($name, array $substitutions = [], array $options = [])
+    public function generateUri(string $name, array $substitutions = [], array $options = []) : string
     {
         // Must inject routes prior to generating URIs.
         $this->injectRoutes();
@@ -134,10 +127,7 @@ class ZendRouter implements RouterInterface
         return $this->zendRouter->assemble($substitutions, $options);
     }
 
-    /**
-     * @return TreeRouteStack
-     */
-    private function createRouter()
+    private function createRouter() : TreeRouteStack
     {
         return new TreeRouteStack();
     }
@@ -145,11 +135,9 @@ class ZendRouter implements RouterInterface
     /**
      * Create a successful RouteResult from the given RouteMatch.
      *
-     * @param RouteMatch $match
      * @param PsrRequest $request Current HTTP request
-     * @return RouteResult
      */
-    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request)
+    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request) : RouteResult
     {
         $params = $match->getParams();
 
@@ -186,13 +174,11 @@ class ZendRouter implements RouterInterface
 
     /**
      * Create route configuration for matching one or more HTTP methods.
-     *
-     * @param Route $route
-     * @return array
      */
-    private function createHttpMethodRoute($route)
+    private function createHttpMethodRoute(Route $route) : array
     {
         $methods = array_unique(array_merge($route->getAllowedMethods(), self::HTTP_METHODS_IMPLICIT));
+
         return [
             'type'    => 'method',
             'options' => [
@@ -211,11 +197,8 @@ class ZendRouter implements RouterInterface
      * essentially, this is a route that will always match, but *after* the
      * HTTP method route has already failed. By checking for this route later,
      * we can return a 405 response with the allowed methods.
-     *
-     * @param string $path
-     * @return array
      */
-    private function createMethodNotAllowedRoute($path)
+    private function createMethodNotAllowedRoute(string $path) : array
     {
         return [
             'type'     => 'regex',
@@ -236,11 +219,8 @@ class ZendRouter implements RouterInterface
      * Routes will generally match the child HTTP method routes, which will not
      * match the names they were registered with; this method strips the method
      * route name if present.
-     *
-     * @param string $name
-     * @return string
      */
-    private function getMatchedRouteName($name)
+    private function getMatchedRouteName(string $name) : string
     {
         // Check for <name>/GET:POST style route names; if so, strip off the
         // child route matching the method.
@@ -255,7 +235,7 @@ class ZendRouter implements RouterInterface
     /**
      * Inject any unprocessed routes into the underlying router implementation.
      */
-    private function injectRoutes()
+    private function injectRoutes() : void
     {
         foreach ($this->routesToInject as $index => $route) {
             $this->injectRoute($route);
@@ -266,10 +246,8 @@ class ZendRouter implements RouterInterface
 
     /**
      * Inject route into the underlying router implemetation.
-     *
-     * @param Route $route
      */
-    private function injectRoute(Route $route)
+    private function injectRoute(Route $route) : void
     {
         $name    = $route->getName();
         $path    = $route->getPath();
