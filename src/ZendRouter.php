@@ -166,7 +166,7 @@ class ZendRouter implements RouterInterface
             // This should never happen, as Zend\Expressive\Router\Route always
             // ensures a non-empty route name. Marking as failed route to be
             // consistent with other implementations.
-            return RouteResult::fromRouteFailure();
+            return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
         }
 
         return RouteResult::fromRoute($route, $params);
