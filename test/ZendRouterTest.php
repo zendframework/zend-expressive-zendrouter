@@ -21,6 +21,7 @@ use Zend\Expressive\Router\RouteResult;
 use Zend\Expressive\Router\ZendRouter;
 use Zend\Http\Request as ZendRequest;
 use Zend\I18n\Translator\TranslatorInterface;
+use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
 
@@ -264,6 +265,27 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertEquals('/foo^GET', $result->getMatchedRouteName());
         $this->assertEquals($middleware, $result->getMatchedMiddleware());
+    }
+
+    public function testReturnsRouteFailureForRouteInjectedManuallyIntoBaseRouterButNotRouterBridge()
+    {
+        $uri = $this->prophesize(UriInterface::class);
+        $uri->getPath()->willReturn('/foo');
+
+        $request = new ServerRequest(['REQUEST_METHOD' => 'GET'], [], '/foo', 'GET');
+        $zendRequest = Psr7ServerRequest::toZend($request);
+
+        $routeMatch = new \Zend\Router\Http\RouteMatch([], 4);
+        $routeMatch->setMatchedRouteName('/foo');
+
+        $this->zendRouter->match($zendRequest)->willReturn($routeMatch);
+
+        $router = $this->getRouter();
+        $result = $router->match($request);
+
+        $this->assertInstanceOf(RouteResult::class, $result);
+        $this->assertTrue($result->isFailure());
+        $this->assertFalse($result->isMethodFailure());
     }
 
     public function testMatchedRouteNameNoAllowedMethods()
