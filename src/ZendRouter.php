@@ -229,7 +229,7 @@ class ZendRouter implements RouterInterface
         }
 
         // Otherwise, just use the name.
-        return $name;
+        return rtrim($name, '/');
     }
 
     /**
