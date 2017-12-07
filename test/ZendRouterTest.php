@@ -266,6 +266,46 @@ class ZendRouterTest extends TestCase
         $this->assertEquals($middleware, $result->getMatchedMiddleware());
     }
 
+    public function testMatchedRouteNameNoAllowedMethods()
+    {
+        $middleware = $this->getMiddleware();
+
+        $zendRouter = new ZendRouter();
+        $zendRouter->addRoute(new Route('/foo', $middleware, [], '/foo'));
+
+        $request = new ServerRequest(
+            ['REQUEST_METHOD' => RequestMethod::METHOD_HEAD],
+            [],
+            '/foo',
+            RequestMethod::METHOD_HEAD
+        );
+        $result = $zendRouter->match($request);
+        $this->assertInstanceOf(RouteResult::class, $result);
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('/foo', $result->getMatchedRouteName());
+        $this->assertSame($middleware, $result->getMatchedMiddleware());
+    }
+
+    public function testMatchedRouteNameWhenGetMethodAllowed()
+    {
+        $middleware = $this->getMiddleware();
+
+        $zendRouter = new ZendRouter();
+        $zendRouter->addRoute(new Route('/foo', $middleware, [RequestMethod::METHOD_GET], '/foo'));
+
+        $request = new ServerRequest(
+            ['REQUEST_METHOD' => RequestMethod::METHOD_GET],
+            [],
+            '/foo',
+            RequestMethod::METHOD_GET
+        );
+        $result = $zendRouter->match($request);
+        $this->assertInstanceOf(RouteResult::class, $result);
+        $this->assertTrue($result->isSuccess());
+        $this->assertSame('/foo', $result->getMatchedRouteName());
+        $this->assertSame($middleware, $result->getMatchedMiddleware());
+    }
+
     /**
      * @group match
      */
