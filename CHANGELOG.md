@@ -2,13 +2,17 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.0.0alpha1 - TBD
+## 3.0.0alpha1 - 2018-02-06
 
 ### Added
 
 - [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30) and
-- [#35](https://github.com/zendframework/zend-expressive-zendrouter/pull/35) add
+  [#35](https://github.com/zendframework/zend-expressive-zendrouter/pull/35) add
   support for the zend-expressive-router 3.0 series.
+
+- [#34](https://github.com/zendframework/zend-expressive-zendrouter/pull/34)
+  adds `Zend\Expressive\Router\ZendRouter\ConfigProvider` and exposes it as a
+  config provider within the package definition.
 
 ### Changed
 
