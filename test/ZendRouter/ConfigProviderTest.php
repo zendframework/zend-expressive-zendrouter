@@ -7,11 +7,11 @@
 
 declare(strict_types=1);
 
-namespace ZendTest\Expressive\Router;
+namespace ZendTest\Expressive\Router\ZendRouter;
 
 use PHPUnit\Framework\TestCase;
-use Zend\Expressive\Router\ConfigProvider;
 use Zend\Expressive\Router\RouterInterface;
+use Zend\Expressive\Router\ZendRouter\ConfigProvider;
 
 class ConfigProviderTest extends TestCase
 {

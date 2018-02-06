@@ -7,7 +7,10 @@
 
 declare(strict_types=1);
 
-namespace Zend\Expressive\Router;
+namespace Zend\Expressive\Router\ZendRouter;
+
+use Zend\Expressive\Router\RouterInterface;
+use Zend\Expressive\Router\ZendRouter;
 
 class ConfigProvider
 {
