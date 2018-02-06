@@ -11,6 +11,7 @@ namespace ZendTest\Expressive\Router\ZendRouter;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Expressive\Router\RouterInterface;
+use Zend\Expressive\Router\ZendRouter;
 use Zend\Expressive\Router\ZendRouter\ConfigProvider;
 
 class ConfigProviderTest extends TestCase
@@ -40,8 +41,13 @@ class ConfigProviderTest extends TestCase
     {
         self::assertArrayHasKey('dependencies', $config);
         self::assertInternalType('array', $config['dependencies']);
-        self::assertArrayHasKey('factories', $config['dependencies']);
-        self::assertInternalType('array', $config['dependencies']['factories']);
-        self::assertArrayHasKey(RouterInterface::class, $config['dependencies']['factories']);
+
+        self::assertArrayHasKey('aliases', $config['dependencies']);
+        self::assertInternalType('array', $config['dependencies']['aliases']);
+        self::assertArrayHasKey(RouterInterface::class, $config['dependencies']['aliases']);
+
+        self::assertArrayHasKey('invokables', $config['dependencies']);
+        self::assertInternalType('array', $config['dependencies']['invokables']);
+        self::assertArrayHasKey(ZendRouter::class, $config['dependencies']['invokables']);
     }
 }

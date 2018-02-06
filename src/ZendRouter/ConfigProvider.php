@@ -24,8 +24,11 @@ class ConfigProvider
     public function getDependencies() : array
     {
         return [
-            'factories' => [
+            'aliases' => [
                 RouterInterface::class => ZendRouter::class,
+            ],
+            'invokables' => [
+                ZendRouter::class => ZendRouter::class,
             ],
         ];
     }
