@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30) adds
+- [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30) and
+- [#35](https://github.com/zendframework/zend-expressive-zendrouter/pull/35) add
   support for the zend-expressive-router 3.0 series.
 
 ### Changed
