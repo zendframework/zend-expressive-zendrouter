@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.0alpha2 - 2018-02-07
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#36](https://github.com/zendframework/zend-expressive-zendrouter/pull/36)
+  fixes the composer config provider entry.
+
 ## 3.0.0alpha1 - 2018-02-06
 
 ### Added
