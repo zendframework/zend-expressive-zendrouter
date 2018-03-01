@@ -169,6 +169,10 @@ class ZendRouter implements RouterInterface
             return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
         }
 
+        if (in_array($request->getMethod(), self::HTTP_METHODS_IMPLICIT, true)) {
+            return RouteResult::fromRouteFailure($this->allowedMethodsByPath[$route->getPath()]);
+        }
+
         return RouteResult::fromRoute($route, $params);
     }
 

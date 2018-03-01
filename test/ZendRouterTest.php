@@ -303,9 +303,9 @@ class ZendRouterTest extends TestCase
         );
         $result = $zendRouter->match($request);
         $this->assertInstanceOf(RouteResult::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $this->assertSame('/foo', $result->getMatchedRouteName());
-        $this->assertSame($middleware, $result->getMatchedRoute()->getMiddleware());
+        $this->assertFalse($result->isSuccess());
+        $this->assertFalse($result->getMatchedRoute());
+        $this->assertSame([], $result->getAllowedMethods());
     }
 
     public function testMatchedRouteNameWhenGetMethodAllowed()
@@ -498,8 +498,8 @@ class ZendRouterTest extends TestCase
         $result = $router->match($request->reveal());
 
         $this->assertInstanceOf(RouteResult::class, $result);
-        $this->assertTrue($result->isSuccess());
-        $this->assertSame($route, $result->getMatchedRoute());
+        $this->assertFalse($result->isSuccess());
+        $this->assertSame([RequestMethod::METHOD_PUT], $result->getAllowedMethods());
     }
 
     public function testUriGenerationMayUseOptions()
