@@ -264,7 +264,7 @@ class ZendRouterTest extends TestCase
         $result = $zendRouter->match($request);
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertEquals('/foo^GET', $result->getMatchedRouteName());
-        $this->assertEquals($middleware, $result->getMatchedMiddleware());
+        $this->assertEquals($middleware, $result->getMatchedRoute()->getMiddleware());
     }
 
     public function testReturnsRouteFailureForRouteInjectedManuallyIntoBaseRouterButNotRouterBridge()
@@ -305,7 +305,7 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
         $this->assertSame('/foo', $result->getMatchedRouteName());
-        $this->assertSame($middleware, $result->getMatchedMiddleware());
+        $this->assertSame($middleware, $result->getMatchedRoute()->getMiddleware());
     }
 
     public function testMatchedRouteNameWhenGetMethodAllowed()
@@ -325,7 +325,7 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
         $this->assertSame('/foo', $result->getMatchedRouteName());
-        $this->assertSame($middleware, $result->getMatchedMiddleware());
+        $this->assertSame($middleware, $result->getMatchedRoute()->getMiddleware());
     }
 
     /**
@@ -355,7 +355,7 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isSuccess());
         $this->assertSame('/foo', $result->getMatchedRouteName());
-        $this->assertSame($middleware, $result->getMatchedMiddleware());
+        $this->assertSame($middleware, $result->getMatchedRoute()->getMiddleware());
     }
 
     /**
