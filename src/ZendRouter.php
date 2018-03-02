@@ -163,13 +163,6 @@ class ZendRouter implements RouterInterface
         }, false);
 
         if (! $route) {
-            $path = $request->getUri()->getPath();
-            if (isset($this->allowedMethodsByPath[$path])
-                && in_array($request->getMethod(), self::HTTP_METHODS_IMPLICIT, true)
-            ) {
-                return RouteResult::fromRouteFailure($this->allowedMethodsByPath[$route->getPath()]);
-            }
-
             // This should never happen, as Zend\Expressive\Router\Route always
             // ensures a non-empty route name. Marking as failed route to be
             // consistent with other implementations.
