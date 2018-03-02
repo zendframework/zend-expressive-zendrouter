@@ -163,14 +163,17 @@ class ZendRouter implements RouterInterface
         }, false);
 
         if (! $route) {
+            $path = $request->getUri()->getPath();
+            if (isset($this->allowedMethodsByPath[$path])
+                && in_array($request->getMethod(), self::HTTP_METHODS_IMPLICIT, true)
+            ) {
+                return RouteResult::fromRouteFailure($this->allowedMethodsByPath[$route->getPath()]);
+            }
+
             // This should never happen, as Zend\Expressive\Router\Route always
             // ensures a non-empty route name. Marking as failed route to be
             // consistent with other implementations.
             return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
-        }
-
-        if (in_array($request->getMethod(), self::HTTP_METHODS_IMPLICIT, true)) {
-            return RouteResult::fromRouteFailure($this->allowedMethodsByPath[$route->getPath()]);
         }
 
         return RouteResult::fromRoute($route, $params);
@@ -181,12 +184,10 @@ class ZendRouter implements RouterInterface
      */
     private function createHttpMethodRoute(Route $route) : array
     {
-        $methods = array_unique(array_merge($route->getAllowedMethods(), self::HTTP_METHODS_IMPLICIT));
-
         return [
             'type'    => 'method',
             'options' => [
-                'verb'     => implode(',', $methods),
+                'verb'     => implode(',', $route->getAllowedMethods()),
                 'defaults' => [
                     'middleware' => $route->getMiddleware(),
                 ],

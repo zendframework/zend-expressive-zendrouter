@@ -94,7 +94,7 @@ class ZendRouterTest extends TestCase
                 RequestMethod::METHOD_GET => [
                     'type' => 'method',
                     'options' => [
-                        'verb' => 'GET,HEAD,OPTIONS',
+                        'verb' => RequestMethod::METHOD_GET,
                         'defaults' => [
                             'middleware' => $middleware,
                         ],
@@ -141,7 +141,7 @@ class ZendRouterTest extends TestCase
                 RequestMethod::METHOD_GET => [
                     'type' => 'method',
                     'options' => [
-                        'verb' => 'GET,HEAD,OPTIONS',
+                        'verb' => RequestMethod::METHOD_GET,
                         'defaults' => [
                             'middleware' => $middleware,
                         ],
@@ -204,7 +204,7 @@ class ZendRouterTest extends TestCase
                 RequestMethod::METHOD_GET => [
                     'type' => 'method',
                     'options' => [
-                        'verb' => 'GET,HEAD,OPTIONS',
+                        'verb' => RequestMethod::METHOD_GET,
                         'defaults' => [
                             'middleware' => $middleware,
                         ],
