@@ -392,7 +392,11 @@ class ZendRouterTest extends TestCase
     public function testMatchFailureDueToHttpMethodReturnsRouteResultWithAllowedMethods()
     {
         $router = new ZendRouter();
-        $router->addRoute(new Route('/foo', $this->getMiddleware(), [RequestMethod::METHOD_POST, 'DELETE']));
+        $router->addRoute(new Route(
+            '/foo',
+            $this->getMiddleware(),
+            [RequestMethod::METHOD_POST, RequestMethod::METHOD_DELETE]
+        ));
         $request = new ServerRequest(
             ['REQUEST_METHOD' => RequestMethod::METHOD_GET],
             [],
@@ -404,7 +408,7 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isFailure());
         $this->assertTrue($result->isMethodFailure());
-        $this->assertEquals([RequestMethod::METHOD_POST, 'DELETE'], $result->getAllowedMethods());
+        $this->assertEquals([RequestMethod::METHOD_POST, RequestMethod::METHOD_DELETE], $result->getAllowedMethods());
     }
 
     /**
@@ -413,7 +417,11 @@ class ZendRouterTest extends TestCase
     public function testMatchFailureDueToMethodNotAllowedWithParamsInTheRoute()
     {
         $router = new ZendRouter();
-        $router->addRoute(new Route('/foo[/:id]', $this->getMiddleware(), [RequestMethod::METHOD_POST, 'DELETE']));
+        $router->addRoute(new Route(
+            '/foo[/:id]',
+            $this->getMiddleware(),
+            [RequestMethod::METHOD_POST, RequestMethod::METHOD_DELETE]
+        ));
         $request = new ServerRequest(
             ['REQUEST_METHOD' => RequestMethod::METHOD_GET],
             [],
@@ -425,7 +433,7 @@ class ZendRouterTest extends TestCase
         $this->assertInstanceOf(RouteResult::class, $result);
         $this->assertTrue($result->isFailure());
         $this->assertTrue($result->isMethodFailure());
-        $this->assertEquals([RequestMethod::METHOD_POST, 'DELETE'], $result->getAllowedMethods());
+        $this->assertEquals([RequestMethod::METHOD_POST, RequestMethod::METHOD_DELETE], $result->getAllowedMethods());
     }
 
     /**
