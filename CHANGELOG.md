@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.0rc2 - 2018-03-06
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
+  updates the minimum supported version of zend-expressive-router to 3.0.0rc2.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
+  fixes how the router creates a `RouteResult` when the path matches, but not
+  the HTTP method. In particular, it does not provide special handling for
+  `HEAD` requests, treating them like any other method mismatch.
+
 ## 3.0.0rc1 - 2018-03-05
 
 ### Added
