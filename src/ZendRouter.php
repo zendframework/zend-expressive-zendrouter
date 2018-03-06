@@ -96,11 +96,6 @@ class ZendRouter implements RouterInterface
 
         $zendRequest = Psr7ServerRequest::toZend($request, true);
         $match = $this->zendRouter->match($zendRequest);
-        if ($request->getMethod() === RequestMethod::METHOD_HEAD
-            && (null === $match || null !== $match->getParam(self::METHOD_NOT_ALLOWED_ROUTE))
-        ) {
-            $match = $this->zendRouter->match($zendRequest->setMethod(RequestMethod::METHOD_GET));
-        }
 
         if (null === $match) {
             // No route matched at all; to indicate that it's not due to the
