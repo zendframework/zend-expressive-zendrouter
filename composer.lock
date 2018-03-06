@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "83aa8a8d660379373928b9c3f549627b",
+    "content-hash": "8049346221ac7fc5e2ce5da9d5345a50",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -394,12 +394,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/webimpress/zend-expressive-router.git",
-                "reference": "c1e704096b37897410414246a09bd00e186e41c7"
+                "reference": "2fcc7d610b0394417d99c682b5451e2dd049f1c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webimpress/zend-expressive-router/zipball/c1e704096b37897410414246a09bd00e186e41c7",
-                "reference": "c1e704096b37897410414246a09bd00e186e41c7",
+                "url": "https://api.github.com/repos/webimpress/zend-expressive-router/zipball/2fcc7d610b0394417d99c682b5451e2dd049f1c0",
+                "reference": "2fcc7d610b0394417d99c682b5451e2dd049f1c0",
                 "shasum": ""
             },
             "require": {
@@ -485,7 +485,7 @@
                 "slack": "https://zendframework-slack.herokuapp.com",
                 "forum": "https://discourse.zendframework.com/c/questions/expressive"
             },
-            "time": "2018-03-06T17:43:52+00:00"
+            "time": "2018-03-06T20:55:46+00:00"
         },
         {
             "name": "zendframework/zend-http",

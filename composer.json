@@ -22,7 +22,7 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/webimpress/zend-expressive-router"
+            "url": "git://github.com/webimpress/zend-expressive-router.git"
         }
     ],
     "require": {
