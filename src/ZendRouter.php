@@ -29,14 +29,6 @@ use Zend\Router\RouteMatch;
  */
 class ZendRouter implements RouterInterface
 {
-    /**
-     * Implicitly supported HTTP methods on any route.
-     */
-    public const HTTP_METHODS_IMPLICIT = [
-        RequestMethod::METHOD_HEAD,
-        RequestMethod::METHOD_OPTIONS,
-    ];
-
     public const METHOD_NOT_ALLOWED_ROUTE = 'method_not_allowed';
 
     /**
