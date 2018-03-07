@@ -23,7 +23,7 @@
         "php": "^7.1",
         "fig/http-message-util": "^1.1.2",
         "psr/http-message": "^1.0.1",
-        "zendframework/zend-expressive-router": "^3.0.0rc2",
+        "zendframework/zend-expressive-router": "^3.0.0rc3",
         "zendframework/zend-psr7bridge": "^0.2.2 || ^1.0.0",
         "zendframework/zend-router": "^3.0.2"
     },
