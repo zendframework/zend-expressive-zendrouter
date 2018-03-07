@@ -298,26 +298,6 @@ class ZendRouterTest extends TestCase
         $this->assertFalse($result->isMethodFailure());
     }
 
-    public function testMatchedRouteNameNoAllowedMethods()
-    {
-        $middleware = $this->getMiddleware();
-
-        $zendRouter = new ZendRouter();
-        $zendRouter->addRoute(new Route('/foo', $middleware, [], '/foo'));
-
-        $request = new ServerRequest(
-            ['REQUEST_METHOD' => RequestMethod::METHOD_HEAD],
-            [],
-            '/foo',
-            RequestMethod::METHOD_HEAD
-        );
-        $result = $zendRouter->match($request);
-        $this->assertInstanceOf(RouteResult::class, $result);
-        $this->assertFalse($result->isSuccess());
-        $this->assertFalse($result->getMatchedRoute());
-        $this->assertSame([], $result->getAllowedMethods());
-    }
-
     public function testMatchedRouteNameWhenGetMethodAllowed()
     {
         $middleware = $this->getMiddleware();
