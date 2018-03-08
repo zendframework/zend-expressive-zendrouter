@@ -12,6 +12,7 @@ namespace ZendTest\Expressive\Router;
 use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -27,6 +28,7 @@ use Zend\Router\RouteMatch;
 
 class ZendRouterTest extends TestCase
 {
+    /** @var TreeRouteStack|ObjectProphecy */
     private $zendRouter;
 
     protected function setUp()
@@ -240,13 +242,14 @@ class ZendRouterTest extends TestCase
 
     public function routeResults()
     {
+        $middleware = $this->prophesize(MiddlewareInterface::class)->reveal();
         return [
             'success' => [
-                new Route('/foo', 'bar'),
+                new Route('/foo', $middleware),
                 RouteResult::fromRouteMatch('/foo', 'bar'),
             ],
             'failure' => [
-                new Route('/foo', 'bar'),
+                new Route('/foo', $middleware),
                 RouteResult::fromRouteFailure(),
             ],
         ];
