@@ -17,6 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Zend\Diactoros\ServerRequest;
+use Zend\Expressive\Router\Exception\RuntimeException;
 use Zend\Expressive\Router\Route;
 use Zend\Expressive\Router\RouteResult;
 use Zend\Expressive\Router\ZendRouter;
@@ -535,5 +536,14 @@ class ZendRouterTest extends TestCase
         ]);
 
         $this->assertEquals('/de/found', $uri);
+    }
+
+    public function testGenerateUriRaisesExceptionForNotFoundRoute()
+    {
+        $router = new ZendRouter();
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('route not found');
+        $router->generateUri('foo');
     }
 }
