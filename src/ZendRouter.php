@@ -94,7 +94,7 @@ class ZendRouter implements RouterInterface
             return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
         }
 
-        return $this->marshalSuccessResultFromRouteMatch($match, $request);
+        return $this->marshalSuccessResultFromRouteMatch($match);
     }
 
     public function generateUri(string $name, array $substitutions = [], array $options = []) : string
@@ -126,10 +126,8 @@ class ZendRouter implements RouterInterface
 
     /**
      * Create a successful RouteResult from the given RouteMatch.
-     *
-     * @param PsrRequest $request Current HTTP request
      */
-    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request) : RouteResult
+    private function marshalSuccessResultFromRouteMatch(RouteMatch $match) : RouteResult
     {
         $params = $match->getParams();
 
