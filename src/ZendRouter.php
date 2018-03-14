@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Zend\Expressive\Router;
 
-use Fig\Http\Message\RequestMethodInterface as RequestMethod;
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
 use Zend\Expressive\Router\Exception;
 use Zend\Psr7Bridge\Psr7ServerRequest;
@@ -95,7 +94,7 @@ class ZendRouter implements RouterInterface
             return RouteResult::fromRouteFailure(Route::HTTP_METHOD_ANY);
         }
 
-        return $this->marshalSuccessResultFromRouteMatch($match, $request);
+        return $this->marshalSuccessResultFromRouteMatch($match);
     }
 
     public function generateUri(string $name, array $substitutions = [], array $options = []) : string
@@ -127,10 +126,8 @@ class ZendRouter implements RouterInterface
 
     /**
      * Create a successful RouteResult from the given RouteMatch.
-     *
-     * @param PsrRequest $request Current HTTP request
      */
-    private function marshalSuccessResultFromRouteMatch(RouteMatch $match, PsrRequest $request) : RouteResult
+    private function marshalSuccessResultFromRouteMatch(RouteMatch $match) : RouteResult
     {
         $params = $match->getParams();
 
