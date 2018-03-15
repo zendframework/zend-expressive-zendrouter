@@ -15,6 +15,15 @@ use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
 
+use function array_key_exists;
+use function array_merge;
+use function array_reduce;
+use function array_replace_recursive;
+use function implode;
+use function preg_match;
+use function rtrim;
+use function sprintf;
+
 /**
  * Router implementation that consumes zend-mvc TreeRouteStack.
  *
