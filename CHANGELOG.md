@@ -2,106 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 3.0.0rc3 - 2018-03-07
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- [#41](https://github.com/zendframework/zend-expressive-zendrouter/pull/41)
-  updates the minimum supported version of zend-expressive-router to 3.0.0rc3
-  and later.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- Nothing.
-
-## 3.0.0rc2 - 2018-03-06
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
-  updates the minimum supported version of zend-expressive-router to 3.0.0rc2.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
-  fixes how the router creates a `RouteResult` when the path matches, but not
-  the HTTP method. In particular, it does not provide special handling for
-  `HEAD` requests, treating them like any other method mismatch.
-
-## 3.0.0rc1 - 2018-03-05
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- [#37](https://github.com/zendframework/zend-expressive-zendrouter/pull/37)
-  updates the package to pin to zend-expressive-router 3.0.0rc1 or later.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#37](https://github.com/zendframework/zend-expressive-zendrouter/pull/37)
-  fixes an issue with how a failure result is marshaled when the path patches
-  but the request method does not. The package now correctly aggregates allowed
-  methods for the route result failure instance.
-
-## 3.0.0alpha2 - 2018-02-07
-
-### Added
-
-- Nothing.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
-
-### Removed
-
-- Nothing.
-
-### Fixed
-
-- [#36](https://github.com/zendframework/zend-expressive-zendrouter/pull/36)
-  fixes the composer config provider entry.
-
-## 3.0.0alpha1 - 2018-02-06
+## 3.0.0 - 2018-03-15
 
 ### Added
 
@@ -115,7 +16,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#41](https://github.com/zendframework/zend-expressive-zendrouter/pull/41)
+  updates the minimum supported version of zend-expressive-router to 3.0.0rc3
+  and later.
 
 ### Deprecated
 
@@ -131,7 +34,15 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#37](https://github.com/zendframework/zend-expressive-zendrouter/pull/37)
+  fixes an issue with how a failure result is marshaled when the path patches
+  but the request method does not. The package now correctly aggregates allowed
+  methods for the route result failure instance.
+
+- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
+  fixes how the router creates a `RouteResult` when the path matches, but not
+  the HTTP method. In particular, it does not provide special handling for
+  `HEAD` requests, treating them like any other method mismatch.
 
 ## 2.2.0 - 2018-03-08
 
