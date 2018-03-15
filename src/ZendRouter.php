@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Zend\Expressive\Router;
 
 use Psr\Http\Message\ServerRequestInterface as PsrRequest;
-use Zend\Expressive\Router\Exception;
 use Zend\Psr7Bridge\Psr7ServerRequest;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\Router\RouteMatch;
