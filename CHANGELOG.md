@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 3.0.0 - 2018-03-15
+
+### Added
+
+- [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30) and
+  [#35](https://github.com/zendframework/zend-expressive-zendrouter/pull/35) add
+  support for the zend-expressive-router 3.0 series.
+
+- [#34](https://github.com/zendframework/zend-expressive-zendrouter/pull/34)
+  adds `Zend\Expressive\Router\ZendRouter\ConfigProvider` and exposes it as a
+  config provider within the package definition.
+
+### Changed
+
+- [#41](https://github.com/zendframework/zend-expressive-zendrouter/pull/41)
+  updates the minimum supported version of zend-expressive-router to 3.0.0rc3
+  and later.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30)
+  removes support for the zend-expressive-router 2.0 series.
+
+- [#30](https://github.com/zendframework/zend-expressive-zendrouter/pull/30)
+  removes support for PHP 5.6 and PHP 7.0.
+
+### Fixed
+
+- [#37](https://github.com/zendframework/zend-expressive-zendrouter/pull/37)
+  fixes an issue with how a failure result is marshaled when the path patches
+  but the request method does not. The package now correctly aggregates allowed
+  methods for the route result failure instance.
+
+- [#40](https://github.com/zendframework/zend-expressive-zendrouter/pull/40)
+  fixes how the router creates a `RouteResult` when the path matches, but not
+  the HTTP method. In particular, it does not provide special handling for
+  `HEAD` requests, treating them like any other method mismatch.
+
 ## 2.2.0 - 2018-03-08
 
 ### Added
