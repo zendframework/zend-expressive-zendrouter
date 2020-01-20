@@ -2,7 +2,7 @@
 
 > ## Repository abandoned 2019-12-31
 >
-> This repository has moved to mezzio/mezzio-laminasrouter.
+> This repository has moved to [mezzio/mezzio-laminasrouter](https://github.com/mezzio/mezzio-laminasrouter).
 
 [![Build Status](https://secure.travis-ci.org/zendframework/zend-expressive-zendrouter.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-expressive-zendrouter)
 [![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-expressive-zendrouter/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-expressive-zendrouter?branch=master)
